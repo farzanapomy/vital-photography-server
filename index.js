@@ -26,6 +26,7 @@ async function run() {
         await client.connect();
         const database = client.db('vital-photography')
         const serviceCollection = database.collection('services')
+        const reviewCollection = database.collection('reviews')
         console.log('databases connected');
 
 
@@ -51,6 +52,16 @@ async function run() {
             console.log(service);
             res.json(service)
         })
+
+
+        // Reviews post and get 
+        app.post('/AddReviews', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review)
+            console.log(result);
+            res.json('result')
+        })
+
 
 
 
