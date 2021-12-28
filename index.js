@@ -27,6 +27,7 @@ async function run() {
         const database = client.db('vital-photography')
         const serviceCollection = database.collection('services')
         const reviewCollection = database.collection('reviews')
+        const orderCollection = database.collection('orders')
         console.log('databases connected');
 
 
@@ -61,6 +62,36 @@ async function run() {
             console.log(result);
             res.json('result')
         })
+
+        app.get('/AddReviews', async (req, res) => {
+            const cursor = reviewCollection.find({})
+            const result = await cursor.toArray();
+            console.log('result');
+            res.json(result);
+        })
+
+
+        // Orders 
+        app.post('/allOrders', async (req, res) => {
+            const orders = req.body;
+            const result = await orderCollection.insertOne(orders);
+            console.log(result);
+            res.json(result);
+        })
+
+        app.get('/allOrders', async (req, res) => {
+            const cursor = orderCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        app.get('/MyOrders/:email', async (req, res) => {
+            const email = req.params.email;
+            const newEmail = ({ email: email });
+            // const cursor=await 
+        })
+
+
 
 
 
