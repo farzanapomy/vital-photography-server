@@ -88,7 +88,9 @@ async function run() {
         app.get('/MyOrders/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
-            // const cursor=await 
+            const cursor= orderCollection.find(newEmail);
+            const result=await cursor.toArray();
+            res.json(result) 
         })
 
 
