@@ -91,25 +91,14 @@ async function run() {
             res.send(result);
         })
 
-        // app.get('/allOrders/:email', async (req, res) => {
-        //     const email = req.params.email;
-        //     const newEmail = ({ email: email });
-        //     console.log(newEmail)
-        //     const cursor = orderCollection.find(newEmail);
-        //     const result = await cursor.toArray();
-        //     console.log(result);
-        //     res.send(result);
-        // })
-
-        app.get('/users/:email', async (req, res) => {
+        app.get('/allOrders/:email', async (req, res) => {
             const email = req.params.email;
-            const query = { email: email };
-            const user = await usersCollections.findOne(query);
-            let isAdmin = false
-            if (user?.role == 'admin') {
-                isAdmin = true;
-            }
-            res.json({ admin: isAdmin });
+            const newEmail = ({ email: email });
+            console.log(newEmail)
+            const cursor = orderCollection.find(newEmail);
+            const result = await cursor.toArray();
+            console.log(result);
+            res.send(result);
         })
 
 
@@ -122,7 +111,8 @@ async function run() {
             res.json(result)
         })
 
-        // user sections 
+        // user sections
+         
         app.post('/users', async (req, res) => {
             const user = req.body;
             console.log(user)
@@ -132,14 +122,15 @@ async function run() {
 
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
-            const newEmail = { email: email };
-            const user = await userCollection.findOne(newEmail);
-            let isAdmin = false;
+            const query = { email: email };
+            const user = await userCollection.findOne(query);
+            let isAdmin = false
             if (user?.role == 'admin') {
-                isAdmin(true)
+                isAdmin = true;
             }
-            res.json({ admin: isAdmin })
+            res.json({ admin: isAdmin });
         })
+
 
         app.put('/users/makeAdmin', async (req, res) => {
             const user = req.body;
@@ -151,14 +142,7 @@ async function run() {
         })
 
 
-        app.put('/status/:id', async (req, res) => {
-            console.log('result');
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) }
-            const updateDoc = { $set: { status: req.body.status } };
-            const result = await orderCollection.updateOne(query, updateDoc)
-            res.send(result);
-        })
+
 
 
 
