@@ -85,14 +85,17 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/MyOrders/:email', async (req, res) => {
+        app.get('/allOrders/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
+            console.log(newEmail)
             const cursor = orderCollection.find(newEmail);
             const result = await cursor.toArray();
-            console.log(result)
             res.json(result)
         })
+
+      
+
 
         app.delete('/allOrders/:id', async (req, res) => {
             const id = req.params.id;
