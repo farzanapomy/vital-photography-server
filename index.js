@@ -28,6 +28,7 @@ async function run() {
         const serviceCollection = database.collection('services')
         const reviewCollection = database.collection('reviews')
         const orderCollection = database.collection('orders')
+        const userCollection = database.collection('users')
         console.log('databases connected');
 
 
@@ -105,6 +106,15 @@ async function run() {
             console.log(result);
             res.json(result)
         })
+
+        // user sections 
+        app.post('/users',async(req,res)=>{
+            const user=req.body;
+            const result= await userCollection.insertOne(user);
+            res.json(result)
+        })
+
+
 
 
 
