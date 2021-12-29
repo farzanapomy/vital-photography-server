@@ -126,7 +126,26 @@ async function run() {
             res.json({ Admin: isAdmin })
         })
 
-        
+        app.put('/users/makeAdmin', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const updateDoc = { $set: { role: 'admin' } };
+            const result = await usersCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        })
+
+
+        app.put('/status/:id', async (req, res) => {
+            console.log('result');
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const updateDoc = { $set: { status: req.body.status } };
+            const result = await orderCollection.updateOne(query, updateDoc)
+            res.send(result);
+        })
+
+
+
 
 
 
