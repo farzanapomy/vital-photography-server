@@ -1,7 +1,12 @@
 const express = require('express')
 require('dotenv').config();
 const app = express()
-const cors = require('cors');
+const cors = require("cors");
+const corsOptions = {
+    origin: '*',
+    credentials: true,
+    optionSuccessStatus: 200,
+}
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 
@@ -9,7 +14,7 @@ const port = process.env.PORT || 5000
 
 
 // middleware 
-app.use(cors());
+app.use(cors(corsOptions))
 app.use(express.json());
 
 
@@ -86,16 +91,26 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/allOrders/:email', async (req, res) => {
-            const email = req.params.email;
-            const newEmail = ({ email: email });
-            console.log(newEmail)
-            const cursor = orderCollection.find(newEmail);
-            const result = await cursor.toArray();
-            console.log(result);
-            res.send(result);
-        })
+        // app.get('/allOrders/:email', async (req, res) => {
+        //     const email = req.params.email;
+        //     const newEmail = ({ email: email });
+        //     console.log(newEmail)
+        //     const cursor = orderCollection.find(newEmail);
+        //     const result = await cursor.toArray();
+        //     console.log(result);
+        //     res.send(result);
+        // })
 
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await usersCollections.findOne(query);
+            let isAdmin = false
+            if (user?.role == 'admin') {
+                isAdmin = true;
+            }
+            res.json({ admin: isAdmin });
+        })
 
 
 
