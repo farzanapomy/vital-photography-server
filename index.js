@@ -108,12 +108,25 @@ async function run() {
         })
 
         // user sections 
-        app.post('/users',async(req,res)=>{
-            const user=req.body;
-            const result= await userCollection.insertOne(user);
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log(user)
+            const result = await userCollection.insertOne(user);
             res.json(result)
         })
 
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const newEmail = { email: email };
+            const user = await userCollection.findOne(newEmail);
+            let isAdmin = false;
+            if (user?.role == 'Admin') {
+                isAdmin(true)
+            }
+            res.json({ Admin: isAdmin })
+        })
+
+        
 
 
 
