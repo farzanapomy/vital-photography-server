@@ -85,7 +85,7 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/allOrders/:email', async (req, res) => {
+        app.get('/myOrders/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
             console.log(newEmail)
@@ -94,7 +94,7 @@ async function run() {
             res.json(result)
         })
 
-      
+
 
 
         app.delete('/allOrders/:id', async (req, res) => {
