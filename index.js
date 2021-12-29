@@ -129,8 +129,9 @@ async function run() {
         app.put('/users/makeAdmin', async (req, res) => {
             const user = req.body;
             const filter = { email: user.email };
+            console.log(filter);
             const updateDoc = { $set: { role: 'admin' } };
-            const result = await usersCollection.updateOne(filter, updateDoc);
+            const result = await userCollection.updateOne(filter, updateDoc);
             res.send(result);
         })
 
