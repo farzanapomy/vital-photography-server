@@ -120,10 +120,10 @@ async function run() {
             const newEmail = { email: email };
             const user = await userCollection.findOne(newEmail);
             let isAdmin = false;
-            if (user?.role == 'Admin') {
+            if (user?.role == 'admin') {
                 isAdmin(true)
             }
-            res.json({ Admin: isAdmin })
+            res.json({ admin: isAdmin })
         })
 
         app.put('/users/makeAdmin', async (req, res) => {
