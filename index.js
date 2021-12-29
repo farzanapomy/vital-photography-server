@@ -85,13 +85,14 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/myOrders/:email', async (req, res) => {
+        app.get('/allOrders/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
             console.log(newEmail)
             const cursor = orderCollection.find(newEmail);
             const result = await cursor.toArray();
-            res.json(result)
+            console.log(result);
+            res.send(result);
         })
 
 
