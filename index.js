@@ -135,7 +135,7 @@ async function run() {
 
         })
 
-        app.put('/myOrder/:id', async (req, res) => {
+        app.put('/allOrders/:id', async (req, res) => {
             const id = req.params.id;
             const payment = req.body;
             const query = { _id: ObjectId(id) };
@@ -144,13 +144,13 @@ async function run() {
                     payment: payment
                 }
             };
+            console.log(updateDoc)
             const result = await orderCollection.updateOne(query, updateDoc)
-            console.log(result)
             res.json(result)
 
         })
 
-
+``
 
         // user sections
 
