@@ -120,6 +120,38 @@ async function run() {
             res.json(result)
         })
 
+        app.post('/create-payment-intent', async (req, res) => {
+            const paymentInfo = req.body;
+            // console.log(paymentInfo)
+            const amount = paymentInfo.price * 100;
+            const paymentIntent = await stripe.paymentIntents.create({
+                currency: 'usd',
+                amount: amount,
+                automatic_payment_methods: {
+                    enabled: true,
+                },
+            });
+            res.json({ clientSecret: paymentIntent.client_secret })
+
+        })
+
+        app.put('/myOrder/:id', async (req, res) => {
+            const id = req.params.id;
+            const payment = req.body;
+            const query = { _id: ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    payment: payment
+                }
+            };
+            const result = await orderCollection.updateOne(query, updateDoc)
+            console.log(result)
+            res.json(result)
+
+        })
+
+
+
         // user sections
 
         app.post('/users', async (req, res) => {
@@ -151,20 +183,6 @@ async function run() {
         })
 
 
-        app.post('/create-payment-intent', async (req, res) => {
-            const paymentInfo = req.body;
-            // console.log(paymentInfo)
-            const amount = paymentInfo.price * 100;
-            const paymentIntent = await stripe.paymentIntents.create({
-                currency: 'usd',
-                amount: amount,
-                automatic_payment_methods: {
-                    enabled: true,
-                },
-            });
-            res.json({ clientSecret: paymentIntent.client_secret })
-
-        })
 
 
 
