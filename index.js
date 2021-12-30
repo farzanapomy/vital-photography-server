@@ -2,19 +2,19 @@ const express = require('express')
 require('dotenv').config();
 const app = express()
 const cors = require("cors");
-const corsOptions = {
-    origin: '*',
-    credentials: true,
-    optionSuccessStatus: 200,
-}
+
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
+const stripe = require('stripe')(process.env.STRIPE_SECRET)
+// console.log(stripe);
+
+
 
 const port = process.env.PORT || 5000
 
 
 // middleware 
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json());
 
 
@@ -151,6 +151,20 @@ async function run() {
         })
 
 
+        app.post('/create-payment-intent', async (req, res) => {
+            const paymentInfo = req.body;
+            // console.log(paymentInfo)
+            const amount = paymentInfo.price * 100;
+            const paymentIntent = await stripe.paymentIntents.create({
+                currency: 'usd',
+                amount: amount,
+                automatic_payment_methods: {
+                    enabled: true,
+                },
+            });
+            res.json({ clientSecret: paymentIntent.client_secret })
+
+        })
 
 
 
