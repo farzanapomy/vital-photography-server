@@ -129,7 +129,7 @@ async function run() {
 
         })
 
-        app.put('/allOrders/:id', async (req, res) => {
+        app.put('/payOrder/:id', async (req, res) => {
             const id = req.params.id;
             const payment = req.body;
             const query = { _id: ObjectId(id) };
