@@ -41,7 +41,6 @@ async function run() {
         app.post('/services', async (req, res) => {
             const service = req.body;
             const result = await serviceCollection.insertOne(service)
-            console.log(result);
             res.json(result)
         })
 
@@ -55,7 +54,6 @@ async function run() {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const result = await serviceCollection.findOne(query)
-            console.log(result);
             res.json(result)
         })
 
@@ -64,14 +62,12 @@ async function run() {
         app.post('/AddReviews', async (req, res) => {
             const review = req.body;
             const result = await reviewCollection.insertOne(review)
-            console.log(result);
-            res.json('result')
+            res.json(result)
         })
 
         app.get('/AddReviews', async (req, res) => {
             const cursor = reviewCollection.find({})
             const result = await cursor.toArray();
-            console.log('result');
             res.json(result);
         })
 
@@ -80,7 +76,6 @@ async function run() {
         app.post('/allOrders', async (req, res) => {
             const orders = req.body;
             const result = await orderCollection.insertOne(orders);
-            console.log(result);
             res.json(result);
         })
 
@@ -93,10 +88,9 @@ async function run() {
         app.get('/allOrders/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
-            console.log(newEmail)
             const cursor = orderCollection.find(newEmail);
             const result = await cursor.toArray();
-            console.log(result);
+            // console.log(result);
             res.send(result);
         })
 
@@ -107,7 +101,7 @@ async function run() {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const result = await orderCollection.findOne(query)
-            console.log(result);
+            // console.log(result);
             res.send(result)
         })
 
@@ -116,7 +110,7 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await orderCollection.deleteOne(query);
-            console.log(result);
+
             res.json(result)
         })
 
@@ -144,13 +138,13 @@ async function run() {
                     payment: payment
                 }
             };
-            console.log(updateDoc)
+            console.log(result)
             const result = await orderCollection.updateOne(query, updateDoc)
             res.json(result)
 
         })
 
-``
+
 
         // user sections
 
@@ -160,6 +154,19 @@ async function run() {
             const result = await userCollection.insertOne(user);
             res.json(result)
         })
+
+
+        
+        app.put('/users/makeAdmin', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            console.log(filter);
+            const updateDoc = { $set: { role: 'admin' } };
+            const result = await userCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        })
+
+
 
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
@@ -172,15 +179,6 @@ async function run() {
             res.json({ admin: isAdmin });
         })
 
-
-        app.put('/users/makeAdmin', async (req, res) => {
-            const user = req.body;
-            const filter = { email: user.email };
-            console.log(filter);
-            const updateDoc = { $set: { role: 'admin' } };
-            const result = await userCollection.updateOne(filter, updateDoc);
-            res.send(result);
-        })
 
 
 
