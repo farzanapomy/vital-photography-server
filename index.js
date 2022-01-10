@@ -138,7 +138,7 @@ async function run() {
                     payment: payment
                 }
             };
-            console.log(result)
+            console.log(updateDoc)
             const result = await orderCollection.updateOne(query, updateDoc)
             res.json(result)
 
