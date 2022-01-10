@@ -90,7 +90,6 @@ async function run() {
             const newEmail = ({ email: email });
             const cursor = orderCollection.find(newEmail);
             const result = await cursor.toArray();
-            // console.log(result);
             res.send(result);
         })
 
@@ -110,7 +109,6 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await orderCollection.deleteOne(query);
-
             res.json(result)
         })
 
