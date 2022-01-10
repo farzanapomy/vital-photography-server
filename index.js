@@ -58,7 +58,7 @@ async function run() {
         })
 
 
-        // Reviews post and get 
+        // Reviews post and get.
         app.post('/AddReviews', async (req, res) => {
             const review = req.body;
             const result = await reviewCollection.insertOne(review)
