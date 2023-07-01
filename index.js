@@ -124,7 +124,6 @@ async function run() {
                 },
             });
             res.json({ clientSecret: paymentIntent.client_secret })
-
         })
 
         app.put('/payOrder/:id', async (req, res) => {
